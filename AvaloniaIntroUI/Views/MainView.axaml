@@ -1,0 +1,62 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AvaloniaIntroUI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AvaloniaIntroUI.Views.MainView"
+             x:DataType="vm:MainViewModel">
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <vm:MainViewModel />
+  </Design.DataContext>
+
+  <!--<TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+
+
+
+	<!--<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="800" Height="450" Background="Gray">
+		<TextBlock x:Name="TB_TITLE" Margin="5" FontSize="24" HorizontalAlignment="Center" Text="" />
+	</StackPanel>-->
+	<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="800" Height="450" Background="Gray">
+		<Border Margin="5" CornerRadius="10" Background="AntiqueWhite" PointerPressed="EH_PointerPressed">
+			<TextBlock x:Name="TB_TITLE" Margin="5" FontSize="24" HorizontalAlignment="Center" Text="" />	
+		</Border>
+		<Border Margin="5" CornerRadius="10" Background="LightBlue">
+			<Grid Background="WhiteSmoke" ColumnDefinitions="*, *" RowDefinitions="*, *" Margin="12" >
+				
+				<StackPanel Grid.Row="0" Grid.Column="0" Spacing="2" Margin="0, 0, 4, 0" >
+					<Button Background="Red" Content="A" HorizontalAlignment="Stretch" />
+					<Button Background="Yellow" Content="B" HorizontalAlignment="Stretch" />
+				</StackPanel>
+				<StackPanel Grid.Row="0" Grid.Column="1" Spacing="2" Margin="4, 0, 0, 0">
+					<Button Background="Blue" Content="C" HorizontalAlignment="Stretch" />
+					<Button Background="Aquamarine" Content="D" HorizontalAlignment="Stretch" />
+				</StackPanel>
+				<StackPanel Grid.Row="1" Grid.Column="0" Spacing="2" Margin="0, 12, 4, 0" >
+					
+				</StackPanel>
+				<StackPanel Grid.Row="1" Grid.Column="1" Spacing="2" Margin="4, 12, 0, 0">
+				</StackPanel>
+			</Grid>
+		</Border>
+		<DockPanel LastChildFill="True">
+			<Border Height="25" Background="SkyBlue" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Top">
+				<TextBlock x:Name="TB_COORDINATE" Foreground="Black">Not Catched</TextBlock>
+			</Border>
+			<Border Height="25" Background="SkyBlue" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Top">
+				<TextBlock Foreground="Black">Dock = "Top"</TextBlock>
+			</Border>
+			<Border Height="25" Background="LemonChiffon" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Bottom">
+				<TextBlock Foreground="Black">Dock = "Bottom"</TextBlock>
+			</Border>
+			<Border Width="200" Background="PaleGreen" BorderBrush="Black" BorderThickness="1" DockPanel.Dock="Left">
+				<TextBlock Foreground="Black">Dock = "Left"</TextBlock>
+			</Border>
+			<Border Background="White" BorderBrush="Black" BorderThickness="1">
+				<TextBlock Foreground="Black">This content will "Fill" the remaining space</TextBlock>
+			</Border>
+		</DockPanel>
+	</StackPanel>
+</UserControl>
