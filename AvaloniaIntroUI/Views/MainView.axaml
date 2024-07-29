@@ -45,27 +45,27 @@
 		
 		
 		<Grid ColumnDefinitions="Auto, Auto, Auto" RowDefinitions="Auto, Auto, Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-			<v:ResizablePanel Name="Panel00" Grid.Row="0" Grid.Column="0" Background="WhiteSmoke"  Height="200">		
+			<v:ResizablePanel Name="Panel_00" Grid.Row="0" Grid.Column="0" Background="WhiteSmoke"  Height="200">		
 				<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" >
 					Resizable Panel <LineBreak/> A-0</TextBlock>
 			</v:ResizablePanel>
 
-			<v:ResizablePanel Name="Panel01" Grid.Row="0" Grid.Column="1" Background="Gray" Height="200" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+			<v:ResizablePanel Name="Panel_01" Grid.Row="0" Grid.Column="1" Background="Gray" Height="200" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 				<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center">
 					Resizable Panel <LineBreak/> A-1 </TextBlock>
 			</v:ResizablePanel>
 			
-			<v:ResizablePanel Name="Panel02" Grid.Row="0" Grid.Column="2" Background="Coral" Height="200" >		
+			<v:ResizablePanel Name="Panel_02" Grid.Row="0" Grid.Column="2" Background="Coral" Height="200" >		
 				<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center">
 					Resizable Panel <LineBreak/> A-2 </TextBlock>
 			</v:ResizablePanel>
 			
-			<v:ResizablePanel Name="Panel10" Grid.Row="1" Grid.Column="0" Background="Peru"  Height="200">
+			<v:ResizablePanel Name="Panel_10" Grid.Row="1" Grid.Column="0" Background="Peru"  Height="200">
 				<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" >
 					Resizable Panel <LineBreak/> B-1 </TextBlock>
 			</v:ResizablePanel>
 
-			<v:ResizablePanel Name="Panel11" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Background="Cyan" Height="200" >
+			<v:ResizablePanel Name="Panel_11" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Background="Cyan" Height="200" >
 				<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center">
 					Resizable Panel <LineBreak/> B-2
 				</TextBlock>

@@ -8,7 +8,6 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Diagnostics;
-
 using System.Diagnostics.CodeAnalysis;
 
 namespace AvaloniaIntroUI.Views;
@@ -47,8 +46,6 @@ public partial class MainView : UserControl
         //    }
         //    AdornerLayer.SetAdorner(adornerButton, null);
         //}
-
-        
     }
 
     private void CheckForNull([NotNull] params object?[] args)
@@ -61,12 +58,12 @@ public partial class MainView : UserControl
 
     private void InitializeControls()
     {
-        var panel_00 = this.FindControl<ResizablePanel>("Panel00");
-        var panel_01 = this.FindControl<ResizablePanel>("Panel01");
-        var panel_02 = this.FindControl<ResizablePanel>("Panel02");
+        var panel_00 = this.FindControl<ResizablePanel>("Panel_00");
+        var panel_01 = this.FindControl<ResizablePanel>("Panel_01");
+        var panel_02 = this.FindControl<ResizablePanel>("Panel_02");
 
-        var panel_10 = this.FindControl<ResizablePanel>("Panel10");
-        var panel_11 = this.FindControl<ResizablePanel>("Panel11");
+        var panel_10 = this.FindControl<ResizablePanel>("Panel_10");
+        var panel_11 = this.FindControl<ResizablePanel>("Panel_11");
         // var panel_12 = this.FindControl<ResizablePanel>("Panel12");
 
         try
@@ -79,7 +76,6 @@ public partial class MainView : UserControl
             Debug.WriteLine(e.ToString());
             throw new ArgumentNullException(nameof(e));
         }
-
 
         panel_00.Resize += (sender, e) => {
             var newHeight = panel_00.Bounds.Height;
@@ -97,7 +93,7 @@ public partial class MainView : UserControl
             panel_00.Height = newHeight;
             panel_02.Height = newHeight;
 
-            panel_11.Width = newWidth;
+            panel_11.Width = newWidth + panel_02.Width;
         };
 
         panel_02.Resize += (sender, e) => {
@@ -107,7 +103,7 @@ public partial class MainView : UserControl
             panel_00.Height = newHeight;
             panel_01.Height = newHeight;
 
-            //panel_12.Width = newWidth;
+            panel_11.Width = newWidth + panel_01.Width;
         };
 
         panel_10.Resize += (sender, e) => {
@@ -233,7 +229,7 @@ public partial class MainView : UserControl
         }
     }
 
-    private void EH_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
+    private void EH_PointerPressed(object? sender, PointerPressedEventArgs e)
     {
         var point = e.GetCurrentPoint(sender as Control);
         
