@@ -9,7 +9,7 @@ using AdornerLayer = Avalonia.Controls.Primitives.AdornerLayer;
 
 namespace AvaloniaIntroUI.ElementModules
 {
-    public class LayerController
+    public class LayerController : Control
     {
         private double _LeftOffset;
         private double _TopOffset;
@@ -42,8 +42,8 @@ namespace AvaloniaIntroUI.ElementModules
             
             _Child = new Rectangle
             {
-                Width = control.Width,
-                Height = control.Height
+                Width = control.Bounds.Width,
+                Height = control.Bounds.Height
             };
 
             var animation = new Animation
@@ -85,15 +85,16 @@ namespace AvaloniaIntroUI.ElementModules
             //scale.InsertKeyFrame(0.5f, new Vector3(1.5f, 1.5f, 0));
             //scale.InsertKeyFrame(1, new Vector3(1, 1, 0));
 
-            //compositionVisual.StartAnimation("Opacity", scale);            
+            //compositionVisual.StartAnimation("Opacity", scale);
 
             _Child.Fill = brush;
         }
 
         private void UpdatePosition()
         {
-            // var adornerLayer = Parent as AdornerLayer;
-            // adornerLayer?.Update(AdornedElement);
+
+            //var adornerLayer = Parent as AdornerLayer;
+            //adornerLayer?.Update(AdornedElement);
         }
     }
 }

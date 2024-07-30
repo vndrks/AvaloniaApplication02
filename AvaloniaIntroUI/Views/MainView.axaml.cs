@@ -1,14 +1,12 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Input;
-using AvaloniaIntroUI.ElementModules;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
 
-using System;
-using System.Windows;
-using System.Windows.Input;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System;
+using System.Windows.Input;
 
 namespace AvaloniaIntroUI.Views;
 
@@ -16,36 +14,28 @@ public partial class MainView : UserControl
 {
     private bool _IsDown;
     private bool _IsDragging;
+
     private double _OriginalLeft;
     private double _OriginalTop;
 
-    private Point _StartPoint;
-    // private UIElement _OriginalElement;
+    private double _MouseX;
+    private double _MouseY;
+
+    private System.Windows.Point _StartPoint;   // @to be determined (recommend : using avalonia point)
+
+    private PointerPoint _LastMousePosition;
     private Control? _SelControl;
-
-    // private FloatingControl _OverlayElement;
-    private LayerController _LayerController;
-
+    private OverlayControl? _OverlayControl;
 
     public MainView()
     {
         InitializeComponent();
-        
-        InitializeControls(); // User Defined
+        InitializeControls();   // User Defined
 
         var adornerButton = this.FindControl<Rectangle>("NAME_A");
 
         if (adornerButton != null)
             AdornerLayer.SetAdorner(adornerButton, null);
-        //if (adornerButton is { })
-        //{
-        //    var adorner = AdornerLayer.GetAdorner(adornerButton);
-        //    if (adorner is { })
-        //    {
-        //        _adorner = adorner;
-        //    }
-        //    AdornerLayer.SetAdorner(adornerButton, null);
-        //}
     }
 
     private void CheckForNull([NotNull] params object?[] args)
@@ -72,7 +62,7 @@ public partial class MainView : UserControl
         }
         catch (ArgumentNullException e)
         {
-            // @ To do throw 
+            // @To do throw 
             Debug.WriteLine(e.ToString());
             throw new ArgumentNullException(nameof(e));
         }
@@ -141,8 +131,20 @@ public partial class MainView : UserControl
 
     private void EH_MouseButtonDown(object? sender, PointerPressedEventArgs e)
     {
+        _LastMousePosition = e.GetCurrentPoint(this);
+
         if (sender is Control control)
         {
+            if (control.Name == "Panel_00")
+            {
+                _IsDown = true;
+                _StartPoint.X = e.GetCurrentPoint(sender as Control).Position.X;
+                _StartPoint.Y = e.GetCurrentPoint(sender as Control).Position.Y;
+
+                _SelControl = e.Source as Control;
+                e.Handled = true;
+            }
+
             if (control.Name == "FloatingCanvas")
             {
                 _IsDown = true;
@@ -151,7 +153,6 @@ public partial class MainView : UserControl
 
                 _SelControl = e.Source as Control;
 
-                // _OriginalElement = e.Source as UIElement;
                 e.Handled = true;
             }
             else
@@ -160,54 +161,54 @@ public partial class MainView : UserControl
                 _StartPoint.X = e.GetCurrentPoint(sender as Control).Position.X;
                 _StartPoint.Y = e.GetCurrentPoint(sender as Control).Position.Y;
 
-                // _OriginalElement = e.Source as UIElement;
-                // FloatingCanvas.CaptureMouse();
                 e.Handled = true;
             }
         }
-        //if (e.Source == FloatingCanvas)
-        //{
-        //}
-        //else
-        //{
-
-        //    _IsDown = true;
-        //    _StartPoint = e.GetPosition(FloatingCanvas);
-        //    _OriginalElement = e.Source as UIElement;
-        //    // FloatingCanvas.CaptureMouse();
-        //    e.Handled = true;
-
-        //}
     }
-
-    private double _mouse_x;
-    private double _mouse_y;
 
     private void EH_MouseMoved(object? sender, PointerEventArgs e)
     {
-        _mouse_x = e.GetCurrentPoint(sender as Control).Position.X;
-        _mouse_y = e.GetCurrentPoint(sender as Control).Position.Y;
+        _MouseX = e.GetCurrentPoint(sender as Control).Position.X;
+        _MouseY = e.GetCurrentPoint(sender as Control).Position.Y;
 
+        /**
+         * @Function : Get pt(Avalonia.Input.PointerPoint) Transform Rendering
+         */
+        if (_OverlayControl != null)
+        {
+            //var delta_x = e.GetCurrentPoint(_OverlayControl).Position.X - _LastMousePosition.Position.X;
+            //var delta_y = e.GetCurrentPoint(_OverlayControl).Position.Y - _LastMousePosition.Position.Y;
+            var delta_x = e.GetCurrentPoint(_OverlayControl).Position.X - _LastMousePosition.Position.X;
+            var delta_y = e.GetCurrentPoint(_OverlayControl).Position.Y - _LastMousePosition.Position.Y;
+
+            // _OverlayControl.UpdatePosition(delta_x, delta_y);
+        }
+
+        /**
+         * @Function : Resizing Panel
+         */
         if (_IsDown)
         {
             if ((_IsDragging == false) &&
-                ((Math.Abs(_mouse_x - _StartPoint.X) > SystemParameters.MinimumHorizontalDragDistance) ||
-                 (Math.Abs(_mouse_y - _StartPoint.Y) > SystemParameters.MinimumVerticalDragDistance)))
+                ((Math.Abs(_MouseX - _StartPoint.X) > System.Windows.SystemParameters.MinimumHorizontalDragDistance) ||
+                 (Math.Abs(_MouseY - _StartPoint.Y) > System.Windows.SystemParameters.MinimumVerticalDragDistance)))
             {
                 DragStarted();
-                Debug.WriteLine("### DragStart");
             }
 
             if (_IsDragging)
             {
-                DragMoved();
-                Debug.WriteLine($"### Drag Moved X : {_mouse_x}, Y : {_mouse_y}");
+                DragMoved(e);
+                Debug.WriteLine($"### Drag Moved X : {_MouseX}, Y : {_MouseY}");
             }
         }
     }
 
     private void EH_MouseReleased(object? sender, PointerReleasedEventArgs e)
     {
+        /**
+         * @How to use PointerPoint
+         */
         var point = e.GetCurrentPoint(sender as Control);
 
         var x = point.Position.X;
@@ -220,8 +221,7 @@ public partial class MainView : UserControl
 
         if (point.Properties.IsRightButtonPressed)
             msg += " Right button pressed.";
-
-        // TB_COORDINATE.Text = msg;
+        
         if (_IsDown)
         {
             DragFinished(e.GetCurrentPoint(sender as Control));
@@ -232,7 +232,8 @@ public partial class MainView : UserControl
     private void EH_PointerPressed(object? sender, PointerPressedEventArgs e)
     {
         var point = e.GetCurrentPoint(sender as Control);
-        
+        _LastMousePosition = e.GetCurrentPoint(this);
+
         var x = point.Position.X;
         var y = point.Position.Y;
 
@@ -251,22 +252,22 @@ public partial class MainView : UserControl
     {
         Mouse.Capture(null);
         if (_IsDragging)
-        {
-            // AdornerLayer.GetAdornerLayer(_OverlayElement.AdornedElement).Remove(_OverlayElement);
-            
+        {            
             if (cancelled == false && _SelControl != null)
             {
                 Canvas.SetTop(_SelControl, popt.Position.Y);
                 Canvas.SetLeft(_SelControl, popt.Position.X);
             }
             _SelControl = null;
+            _TopPanel.Children.Remove(_OverlayControl.GetOverlay());
         }
         _IsDragging = false;
         _IsDown = false;
     }
 
-    private Control? _adorner;
-
+    private StackPanel? _stackPanel;
+    private Panel? _TopPanel;
+    private Canvas? _Canvas;
     private void DragStarted()
     {
         _IsDragging = true;
@@ -275,18 +276,51 @@ public partial class MainView : UserControl
             _OriginalLeft = Canvas.GetLeft(_SelControl);
             _OriginalTop = Canvas.GetTop(_SelControl);
 
-            _LayerController = new LayerController(_SelControl);
+            _OverlayControl = new OverlayControl(_SelControl);
+            _OverlayControl.UpdatePosition(_SelControl.Bounds.X, _SelControl.Bounds.Y);
 
-            var adornerButton = this.FindControl<Rectangle>("NAME_A");
-            AdornerLayer.SetAdorner(adornerButton, _adorner);
+            _stackPanel = this.FindControl<StackPanel>("HomeStackPanel");
+            _TopPanel = this.FindControl<Panel>("TopPanel");
+            _Canvas = this.FindControl<Canvas>("FloatingCanvas");
+
+            /* Test Code 
+            var textBlock = new TextBlock
+            {
+                Text = "Hello, Avalonia!",
+                Foreground = Brushes.Black,
+                FontSize = 24
+            };
+            
+            Canvas.SetLeft(textBlock, 100);
+            Canvas.SetTop(textBlock, 100);
+
+            _Canvas.Children.Add(_OverlayControl);
+            */
+
+            if (_TopPanel != null)
+                _TopPanel.Children.Add(_OverlayControl.GetOverlay());
+            
         }
     }
 
-    private void DragMoved()
+    private void DragMoved(PointerEventArgs e)
     {
+        var point = e.GetPosition(this);
+
+
         // var currentPosition = Mouse.GetPosition(MyCanvas);
 
-        _LayerController.LeftOffset = _mouse_x;
-        _LayerController.TopOffset = _mouse_y;
+        //_OverlayControl.LeftOffset = _MouseX;
+        //_OverlayControl.TopOffset = _MouseY;
+
+        double diff_x = _MouseX - _LastMousePosition.Position.X;
+        double diff_y = _MouseY - _LastMousePosition.Position.Y;
+
+        if (_OverlayControl != null)
+        {
+            _OverlayControl.UpdatePosition(diff_x, diff_y);
+        }
+        //if (_TopPanel != null)
+        //    _TopPanel.Children.Add(_OverlayControl.GetOverlay());
     }
 }

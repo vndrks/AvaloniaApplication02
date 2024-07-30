@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:AvaloniaIntroUI.ViewModels"
 			 xmlns:v="clr-namespace:AvaloniaIntroUI.Views"
-             mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="480"
+             mc:Ignorable="d" d:DesignWidth="1080" d:DesignHeight="720"
              x:Class="AvaloniaIntroUI.Views.MainView"
              x:DataType="vm:MainViewModel">
 	<Design.DataContext>
@@ -14,23 +14,31 @@
 	</Design.DataContext>
 
 	<!--<TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
-	<StackPanel Name="myStackPanel" Orientation="Vertical">
+	<StackPanel Name="HomeStackPanel" Orientation="Vertical">
 		<Border Background="#99FFFFFF" BorderBrush="#CCCCFF" BorderThickness="2" Padding="20">
 			<!--<TextBlock TextWrapping="Wrap" FontSize="12">
 				Mouse Coord + Adorner + Animation + .... 
 			</TextBlock>-->
 			<TextBlock x:Name="TB_COORDINATE" Foreground="Black">Not Catched</TextBlock>
 		</Border>
-		<AdornerLayer.Adorner>
-			<Canvas Name="FloatingCanvas"
+		<!--<AdornerLayer.Adorner>
+			<Canvas Name="FloatingCanvas" Width="300" Height="300"
 						PointerPressed="EH_MouseButtonDown"
 						PointerMoved="EH_MouseMoved"
 						PointerReleased="EH_MouseReleased" >
 				<Rectangle Name="NAME_A" Fill="Blue" Height="32" Width="32" Canvas.Top="8" Canvas.Left="8"/>
 				<TextBox Text="Cannot move the textbox....." Canvas.Top="100" Canvas.Left="100"/>
 			</Canvas>
-		</AdornerLayer.Adorner>
+		</AdornerLayer.Adorner>-->
 
+		<Canvas Name="FloatingCanvas" Width="300" Height="300"
+			PointerPressed="EH_MouseButtonDown"
+			PointerMoved="EH_MouseMoved"
+			PointerReleased="EH_MouseReleased" >
+			<Rectangle Name="NAME_A" Fill="Blue" Height="32" Width="32" Canvas.Top="8" Canvas.Left="8"/>
+			<TextBox Text="Cannot move the textbox....." Canvas.Top="100" Canvas.Left="100"/>
+		</Canvas>
+		
 		<!--
 		<Grid ColumnDefinitions="*, 4, *" RowDefinitions="*, 4, *" Height="300">
 			<Rectangle Grid.Row="0" Grid.Column="0" Fill="WhiteSmoke"/>
@@ -42,41 +50,45 @@
 			<Rectangle Grid.Row="1" Grid.RowSpan="2" Fill="Gray"/>
 		</Grid>
 		-->
-		
-		
-		<Grid ColumnDefinitions="Auto, Auto, Auto" RowDefinitions="Auto, Auto, Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-			<v:ResizablePanel Name="Panel_00" Grid.Row="0" Grid.Column="0" Background="WhiteSmoke"  Height="200">		
-				<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" >
-					Resizable Panel <LineBreak/> A-0</TextBlock>
-			</v:ResizablePanel>
 
-			<v:ResizablePanel Name="Panel_01" Grid.Row="0" Grid.Column="1" Background="Gray" Height="200" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-				<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center">
-					Resizable Panel <LineBreak/> A-1 </TextBlock>
-			</v:ResizablePanel>
-			
-			<v:ResizablePanel Name="Panel_02" Grid.Row="0" Grid.Column="2" Background="Coral" Height="200" >		
-				<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center">
-					Resizable Panel <LineBreak/> A-2 </TextBlock>
-			</v:ResizablePanel>
-			
-			<v:ResizablePanel Name="Panel_10" Grid.Row="1" Grid.Column="0" Background="Peru"  Height="200">
-				<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" >
-					Resizable Panel <LineBreak/> B-1 </TextBlock>
-			</v:ResizablePanel>
+		<Panel Name="TopPanel">
+			<Grid ColumnDefinitions="Auto, Auto, Auto" RowDefinitions="Auto, Auto, Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+				<v:ResizablePanel Name="Panel_00" Grid.Row="0" Grid.Column="0" Background="WhiteSmoke"  Height="200" 
+								  PointerPressed="EH_MouseButtonDown"
+								  PointerMoved="EH_MouseMoved"
+								  PointerReleased="EH_MouseReleased" >		
+					<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center" >
+						Resizable Panel <LineBreak/> A-0</TextBlock>
+				</v:ResizablePanel>
 
-			<v:ResizablePanel Name="Panel_11" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Background="Cyan" Height="200" >
-				<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center">
-					Resizable Panel <LineBreak/> B-2
-				</TextBlock>
-			</v:ResizablePanel>
+				<v:ResizablePanel Name="Panel_01" Grid.Row="0" Grid.Column="1" Background="Gray" Height="200" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+					<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center">
+						Resizable Panel <LineBreak/> A-1 </TextBlock>
+				</v:ResizablePanel>
 			
-			<!--<v:ResizablePanel Name="Panel12" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="DarkGray" Height="200" >
-				<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center">
-					Resizable Panel <LineBreak/> B-3
-				</TextBlock>
-			</v:ResizablePanel>-->
-		</Grid>
+				<v:ResizablePanel Name="Panel_02" Grid.Row="0" Grid.Column="2" Background="Coral" Height="200" >		
+					<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center">
+						Resizable Panel <LineBreak/> A-2 </TextBlock>
+				</v:ResizablePanel>
+			
+				<v:ResizablePanel Name="Panel_10" Grid.Row="1" Grid.Column="0" Background="Peru"  Height="200">
+					<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center" >
+						Resizable Panel <LineBreak/> B-1 </TextBlock>
+				</v:ResizablePanel>
+
+				<v:ResizablePanel Name="Panel_11" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Background="Cyan" Height="200" >
+					<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center">
+						Resizable Panel <LineBreak/> B-2
+					</TextBlock>
+				</v:ResizablePanel>
+			
+				<!--<v:ResizablePanel Name="Panel12" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="DarkGray" Height="200" >
+					<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center">
+						Resizable Panel <LineBreak/> B-3
+					</TextBlock>
+				</v:ResizablePanel>-->
+			</Grid>
+		</Panel>
 		
 		<!--<v:ResizablePanel Background="WhiteSmoke" Orientation="Vertical">
 			--><!-- Child content goes here --><!--

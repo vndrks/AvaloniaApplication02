@@ -25,4 +25,8 @@
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\ResizablePanel.axaml" />
   </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="ElementModules\OverlayControl.axaml" />
+  </ItemGroup>
 </Project>

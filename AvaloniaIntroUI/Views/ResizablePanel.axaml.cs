@@ -37,7 +37,6 @@ public partial class ResizablePanel : Panel
         {
             child.Measure(availableSize);
         }
-        // Debug.WriteLine($"### availableSize Width : {availableSize.Width}, Height : {availableSize.Height}");
         
         if (_IsResizing)
             return new Size(availableSize.Width, availableSize.Height);
@@ -52,7 +51,6 @@ public partial class ResizablePanel : Panel
             child.Arrange(new Rect(finalSize));
         }
 
-        // Debug.WriteLine($"### Final Size Width : {finalSize.Width}, Height : {finalSize.Height}");
         return finalSize;
         //return base.ArrangeOverride(finalSize);
     }
