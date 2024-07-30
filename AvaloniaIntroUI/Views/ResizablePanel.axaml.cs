@@ -7,14 +7,21 @@ using System.Diagnostics;
 
 namespace AvaloniaIntroUI.Views;
 
-public partial class ResizablePanel : Panel
+public partial class ResizablePanel : StackPanel
 {
     public static readonly RoutedEvent<RoutedEventArgs> ResizeEvent =
         RoutedEvent.Register<ResizablePanel, RoutedEventArgs>(nameof(Resize), RoutingStrategies.Bubble);
 
 
-    private bool _IsResizing;
+    
     private Point _LastMousePosition;
+
+    private bool _IsResizing;
+    public bool IsResizing
+    {
+        get => _IsResizing;
+        set => _IsResizing = value;
+    }
 
     public event EventHandler<RoutedEventArgs> Resize
     {

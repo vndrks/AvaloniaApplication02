@@ -37,6 +37,9 @@ public class OverlayControl : UserControl
         _LeftOffset = Bounds.X + mx;
         _TopOffset = Bounds.Y + my;
 
+        /**
+         * @Temporary translation mat code
+         */
         var transformGroup = new TransformGroup();
         transformGroup.Children.Add(new TranslateTransform(_LeftOffset, _TopOffset));
         

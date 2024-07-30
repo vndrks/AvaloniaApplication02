@@ -7,6 +7,9 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System;
 using System.Windows.Input;
+using Tmds.DBus.Protocol;
+using Avalonia.Interactivity;
+using Avalonia;
 
 namespace AvaloniaIntroUI.Views;
 
@@ -36,6 +39,29 @@ public partial class MainView : UserControl
 
         if (adornerButton != null)
             AdornerLayer.SetAdorner(adornerButton, null);
+
+        var btn_ok = this.FindControl<Button>("BTN_OK");
+        var btn_cancel = this.FindControl<Button>("BTN_CANCEL");
+
+        var tb_name = this.FindControl<TextBlock>("TB_NAME");
+        var tb_birth = this.FindControl<TextBlock>("TB_BIRTH");
+        var tb_gender = this.FindControl<TextBlock>("TB_GENDER");
+        var tb_email = this.FindControl<TextBlock>("TB_EMAIL");
+        var tb_phone = this.FindControl<TextBlock>("TB_PHONE");
+
+        if (btn_ok != null && btn_cancel != null)
+        {
+            btn_ok.Click += (s, e) =>
+            {
+                // todo
+
+            };
+
+            btn_cancel.Click += (s, e) =>
+            {
+                // todo
+            };
+        }
     }
 
     private void CheckForNull([NotNull] params object?[] args)
@@ -46,9 +72,10 @@ public partial class MainView : UserControl
         }
     }
 
+    private ResizablePanel? _Panel_00;
     private void InitializeControls()
     {
-        var panel_00 = this.FindControl<ResizablePanel>("Panel_00");
+        _Panel_00 = this.FindControl<ResizablePanel>("Panel_00");
         var panel_01 = this.FindControl<ResizablePanel>("Panel_01");
         var panel_02 = this.FindControl<ResizablePanel>("Panel_02");
 
@@ -58,7 +85,7 @@ public partial class MainView : UserControl
 
         try
         {
-            CheckForNull(panel_00, panel_01, panel_02, panel_10, panel_11);
+            CheckForNull(_Panel_00, panel_01, panel_02, panel_10, panel_11);
         }
         catch (ArgumentNullException e)
         {
@@ -67,9 +94,9 @@ public partial class MainView : UserControl
             throw new ArgumentNullException(nameof(e));
         }
 
-        panel_00.Resize += (sender, e) => {
-            var newHeight = panel_00.Bounds.Height;
-            var newWidth = panel_00.Bounds.Width;
+        _Panel_00.Resize += (sender, e) => {
+            var newHeight = _Panel_00.Bounds.Height;
+            var newWidth = _Panel_00.Bounds.Width;
             panel_01.Height = newHeight;
             panel_02.Height = newHeight;
 
@@ -80,7 +107,7 @@ public partial class MainView : UserControl
             var newHeight = panel_01.Bounds.Height;
             var newWidth = panel_01.Bounds.Width;
 
-            panel_00.Height = newHeight;
+            _Panel_00.Height = newHeight;
             panel_02.Height = newHeight;
 
             panel_11.Width = newWidth + panel_02.Width;
@@ -90,7 +117,7 @@ public partial class MainView : UserControl
             var newHeight = panel_02.Bounds.Height;
             var newWidth = panel_02.Bounds.Width;
 
-            panel_00.Height = newHeight;
+            _Panel_00.Height = newHeight;
             panel_01.Height = newHeight;
 
             panel_11.Width = newWidth + panel_01.Width;
@@ -103,7 +130,7 @@ public partial class MainView : UserControl
             panel_11.Height = newHeight;
             //panel_12.Height = newHeight;
 
-            panel_00.Width = newWidth;
+            _Panel_00.Width = newWidth;
         };
 
         panel_11.Resize += (sender, e) => {
@@ -259,19 +286,20 @@ public partial class MainView : UserControl
                 Canvas.SetLeft(_SelControl, popt.Position.X);
             }
             _SelControl = null;
-            _TopPanel.Children.Remove(_OverlayControl.GetOverlay());
+            if (_TopPanel != null)
+                _TopPanel.Children.Remove(_OverlayControl.GetOverlay());
         }
         _IsDragging = false;
         _IsDown = false;
     }
 
-    private StackPanel? _stackPanel;
+    private StackPanel? _StackPanel;
     private Panel? _TopPanel;
     private Canvas? _Canvas;
     private void DragStarted()
     {
         _IsDragging = true;
-        if (_SelControl != null && _IsDown == true)
+        if (_SelControl != null && _IsDown == true && !_Panel_00.IsResizing)
         {
             _OriginalLeft = Canvas.GetLeft(_SelControl);
             _OriginalTop = Canvas.GetTop(_SelControl);
@@ -279,7 +307,7 @@ public partial class MainView : UserControl
             _OverlayControl = new OverlayControl(_SelControl);
             _OverlayControl.UpdatePosition(_SelControl.Bounds.X, _SelControl.Bounds.Y);
 
-            _stackPanel = this.FindControl<StackPanel>("HomeStackPanel");
+            _StackPanel = this.FindControl<StackPanel>("HomeStackPanel");
             _TopPanel = this.FindControl<Panel>("TopPanel");
             _Canvas = this.FindControl<Canvas>("FloatingCanvas");
 
@@ -307,7 +335,6 @@ public partial class MainView : UserControl
     {
         var point = e.GetPosition(this);
 
-
         // var currentPosition = Mouse.GetPosition(MyCanvas);
 
         //_OverlayControl.LeftOffset = _MouseX;
@@ -316,7 +343,7 @@ public partial class MainView : UserControl
         double diff_x = _MouseX - _LastMousePosition.Position.X;
         double diff_y = _MouseY - _LastMousePosition.Position.Y;
 
-        if (_OverlayControl != null)
+        if (_OverlayControl != null && !_Panel_00.IsResizing)
         {
             _OverlayControl.UpdatePosition(diff_x, diff_y);
         }

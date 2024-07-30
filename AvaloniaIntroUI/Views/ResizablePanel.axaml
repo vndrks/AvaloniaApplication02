@@ -6,7 +6,7 @@
              x:Class="AvaloniaIntroUI.Views.ResizablePanel" >
 	<Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 		<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-			<TextBlock>Current View : ResizablePanel.axaml</TextBlock>
+			<TextBlock Foreground="DarkGray"> Resiable Panel </TextBlock>
 		</StackPanel>
 	</Border>
 </UserControl>
