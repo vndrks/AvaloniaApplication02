@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
+using System;
 using System.Diagnostics;
 
 
@@ -46,5 +47,16 @@ public class OverlayControl : UserControl
         Debug.WriteLine($"### : Left Offset : {_LeftOffset}, Top Offset : {_TopOffset}");
         
         _Child.RenderTransform = transformGroup;
+
+        if (_CallbackAction != null)
+            _CallbackAction.Invoke();
+    }
+
+
+    // Callback e,g,
+    Action _CallbackAction;
+    public void SetCallback(Action action)
+    {
+        _CallbackAction = action;
     }
 }

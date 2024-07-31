@@ -5,6 +5,7 @@ using Avalonia.Media;
 using Avalonia.Rendering.Composition;
 using Avalonia.Rendering.Composition.Animations;
 using System;
+using System.Configuration;
 using AdornerLayer = Avalonia.Controls.Primitives.AdornerLayer;
 
 namespace AvaloniaIntroUI.ElementModules

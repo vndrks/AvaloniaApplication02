@@ -29,4 +29,8 @@
   <ItemGroup>
     <UpToDateCheckInput Remove="ElementModules\OverlayControl.axaml" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CLR_PROJECT\CLR_PROJECT.vcxproj" />
+  </ItemGroup>
 </Project>

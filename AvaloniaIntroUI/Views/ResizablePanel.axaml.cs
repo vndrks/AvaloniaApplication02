@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+
 using System;
 using System.Diagnostics;
 
@@ -13,7 +14,7 @@ public partial class ResizablePanel : StackPanel
         RoutedEvent.Register<ResizablePanel, RoutedEventArgs>(nameof(Resize), RoutingStrategies.Bubble);
 
 
-    
+
     private Point _LastMousePosition;
 
     private bool _IsResizing;

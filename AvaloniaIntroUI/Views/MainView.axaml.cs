@@ -11,6 +11,8 @@ using Tmds.DBus.Protocol;
 using Avalonia.Interactivity;
 using Avalonia;
 
+using ClrTest;
+
 namespace AvaloniaIntroUI.Views;
 
 public partial class MainView : UserControl
@@ -34,6 +36,8 @@ public partial class MainView : UserControl
     {
         InitializeComponent();
         InitializeControls();   // User Defined
+
+        TestFunction();
 
         var adornerButton = this.FindControl<Rectangle>("NAME_A");
 
@@ -154,6 +158,15 @@ public partial class MainView : UserControl
 
         //    panel_02.Width = newWidth;
         //};
+    }
+
+    private void TestFunction()
+    {
+        CClrTestClass dd = new CClrTestClass();
+        double sum = dd.Sum(8, 2);
+        double sub = dd.Sub(8, 2);
+        dd.Mul(8, 2);
+        dd.Div(8, 2);
     }
 
     private void EH_MouseButtonDown(object? sender, PointerPressedEventArgs e)
@@ -293,6 +306,11 @@ public partial class MainView : UserControl
         _IsDown = false;
     }
 
+    private void DoAction()
+    {
+        Debug.WriteLine("### DoAction ###");
+    }
+
     private StackPanel? _StackPanel;
     private Panel? _TopPanel;
     private Canvas? _Canvas;
@@ -305,6 +323,7 @@ public partial class MainView : UserControl
             _OriginalTop = Canvas.GetTop(_SelControl);
 
             _OverlayControl = new OverlayControl(_SelControl);
+            _OverlayControl.SetCallback(new Action(DoAction));
             _OverlayControl.UpdatePosition(_SelControl.Bounds.X, _SelControl.Bounds.Y);
 
             _StackPanel = this.FindControl<StackPanel>("HomeStackPanel");
